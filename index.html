@@ -1,0 +1,151 @@
+<html>
+<head>
+<script src="audiosynth.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+</head>
+<body>
+	<h1>Diana's Box</h1>
+	<h3 onclick="mySoundIs(2)">The Girl From Ipanema</h3>
+<h3 onclick="mySoundIs(1)">Au Clair De La Lune</h3>
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <div id="butt0" class="thumbs" onclick="playSound(0)" style="position:relative;width:50%;height:200px;background:black"></div>
+    </div>
+    <div class="col-sm">
+      <div id="butt1" class="thumbs" onclick="playSound(1)" style="position:relative;width:50%;height:200px;background:black"></div>
+    </div>
+  </div>
+</div>
+<div>
+<span>
+	&nbsp
+</span>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <div id="butt2" class="thumbs" onclick="playSound(2)" style="position:relative;width:50%;height:200px;background:black"></div>
+    </div>
+    <div class="col-sm">
+      <div id="butt3" class="thumbs" onclick="playSound(3)" style="position:relative;width:50%;height:200px;background:black"></div>
+    </div>
+  </div>
+</div>
+
+
+
+
+</body>
+
+<script>
+
+var mySong=2;
+
+Synth instanceof AudioSynth; // true
+
+var testInstance = new AudioSynth;
+testInstance instanceof AudioSynth; // true
+
+testInstance === Synth; // true
+var piano = Synth.createInstrument('piano');
+
+var colors=['yellow','blue','red','orange','green','purple'];
+var notes=[];  //Les notes a jouer
+var octaves=[]; 
+var tempo=[]; 												//Le rythme
+var bouton=[];						//Les boutons a appuyer
+
+var times=[];
+var times2=[];
+var newT;
+var oldT;
+newT=new Date();
+newT2=new Date();
+var mySoundIs=function(sounnd){
+	index=0;
+	times=[];
+	times2=[];
+	newT=new Date();
+	newT2=new Date();
+	oldT=new Date();
+	myBut="butt"+bouton[index];
+	if(sounnd==1){
+	 notes=['C','C','C','D','E','D','C','E','D','D','C','D','D','D','D','A','A','D','C','B','A','G'];  //Les notes a jouer
+	 octaves=[4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,4,4,3,3,3,4,4,4,4,4]; 
+	 tempo=[1,1,1,1,2,2,1,1,1,1,4,1,1,1,1,2,2,1,1,1,1,4]; 												//Le rythme
+	 bouton=[0,3,0,1,2,1,3,2,0,0,1,0,3,0,1,2,1,3,2,0,0,1,0,3,0,1,2,1,3,2,0,0,1];						//Les boutons a appuyer
+	}
+	else{
+	 notes=['G','E','E','D','G','E','E','E','D','G','E','E','D','G','E','E','E','D','F','D','D','C','E','C','C','C','A#','C'];  //Les notes a jouer
+	 octaves=[4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4];
+	 tempo=[2,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1]; 
+	 bouton=[0,1,1,3,0,1,1,1,3,0,1,1,3,0,1,1,1,3,2,1,1,3,2,1,1,1,3,0,1,1,3,0,1,1,1,3,0,1,1,3,0,1,1,1,3,0,1,1,3,0,1,1,1,3];
+	}
+}
+
+mySoundIs(1);
+						//Les boutons a appuyer
+var index=0;
+var myBut="butt"+bouton[index];
+var timeIsOk=1;
+document.getElementById(myBut).style.background=colors[0];
+console.log(myBut);
+
+
+
+var playSound=function(nombre){
+	if(nombre==bouton[index] && timeIsOk==1){
+		timeIsOk=0;
+		if(index>=1){
+			oldT=new Date();
+			var time=oldT-newT;
+			time=time;
+			times.push(time);
+			var time2=oldT-newT2;
+			times2.push(time2);
+			newT2=new Date();
+		}	
+		
+		document.getElementById(myBut).style.background='black';
+		
+		piano.play(notes[index], octaves[index], tempo[index]*1);
+		setTimeout(function(){
+			timeIsOk=1;
+			index=index+1;
+			if(index>=notes.length){
+				index=0;
+				console.log("temps de reaction :");
+				console.log(times);
+				var arrAvg = times.reduce((a,b) => a + b, 0) / times.length;
+				console.log("Moyenne :"+arrAvg);
+				var dev=math.std(times);
+				console.log("ST DEV :"+dev);
+
+				console.log("temps entre 2 notes :");
+				console.log(times2);
+				var arrAvg2 = times2.reduce((a,b) => a + b, 0) / times2.length;
+				console.log("Moyenne :"+arrAvg2);
+				var dev2=math.std(times2);
+				console.log("ST DEV :"+dev2);
+			}
+			myBut="butt"+bouton[index];
+			document.getElementById(myBut).style.background=colors[index%6];
+			newT=new Date();
+		}, tempo[index]*400);
+		
+	}
+}
+
+</script>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/4.2.2/math.js" crossorigin="anonymous"></script>
+
+
+ <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+<html>
