@@ -5,16 +5,19 @@
 
 </head>
 <body>
-	<h1>Diana's Box</h1>
-	<h3 onclick="mySoundIs(2)">The Girl From Ipanema</h3>
-<h3 onclick="mySoundIs(1)">Au Clair De La Lune</h3>
+	<header>
+		<h1>Diana's Box</h1>
+	</header>
+	
+	<button type="button" class="btn btn-primary" onclick="mySoundIs(1)">Au Clair De La Lune</button>
+	<button type="button" class="btn btn-primary" onclick="mySoundIs(2)">The Girl From Ipanema</button>
 <div class="container">
   <div class="row">
     <div class="col-sm">
-      <div id="butt0" class="thumbs" onclick="playSound(0)" style="position:relative;width:50%;height:200px;background:black"></div>
+      <div id="butt0" class="shadow-lg p-3 mb-5  rounded" onclick="playSound(0)" style="position:relative;width:50%;height:200px;background:white"></div>
     </div>
     <div class="col-sm">
-      <div id="butt1" class="thumbs" onclick="playSound(1)" style="position:relative;width:50%;height:200px;background:black"></div>
+      <div id="butt1" class="shadow-lg p-3 mb-5  rounded" onclick="playSound(1)" style="position:relative;width:50%;height:200px;background:white"></div>
     </div>
   </div>
 </div>
@@ -27,15 +30,24 @@
 <div class="container">
   <div class="row">
     <div class="col-sm">
-      <div id="butt2" class="thumbs" onclick="playSound(2)" style="position:relative;width:50%;height:200px;background:black"></div>
+      <div id="butt2" class="shadow-lg p-3 mb-5 rounded" onclick="playSound(2)" style="position:relative;width:50%;height:200px;background:white"></div>
     </div>
     <div class="col-sm">
-      <div id="butt3" class="thumbs" onclick="playSound(3)" style="position:relative;width:50%;height:200px;background:black"></div>
+      <div id="butt3" class="shadow-lg p-3 mb-5  rounded" onclick="playSound(3)" style="position:relative;width:50%;height:200px;background:white"></div>
     </div>
   </div>
 </div>
 
-
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <div id="theDatas" class="thumbs"></div>
+    </div>
+    <div class="col-sm">
+      <div id="theStats" class="thumbs"></div>
+    </div>
+  </div>
+</div>
 
 
 </body>
@@ -50,8 +62,6 @@ var testInstance = new AudioSynth;
 testInstance instanceof AudioSynth; // true
 
 testInstance === Synth; // true
-Synth.setSampleRate(4000);
-
 var piano = Synth.createInstrument('piano');
 
 var colors=['yellow','blue','red','orange','green','purple'];
@@ -111,9 +121,12 @@ var playSound=function(nombre){
 			newT2=new Date();
 		}	
 		
-		document.getElementById(myBut).style.background='black';
+		document.getElementById(myBut).style.background='white';
 		
 		piano.play(notes[index], octaves[index], tempo[index]*1);
+		document.getElementById("butt"+bouton[index]).class="p-3 mb-5 rounded";
+		document.getElementById("butt"+bouton[index+1]).class="shadow-lg p-3 mb-5 rounded";
+
 		setTimeout(function(){
 			timeIsOk=1;
 			index=index+1;
@@ -121,10 +134,15 @@ var playSound=function(nombre){
 				index=0;
 				console.log("temps de reaction :");
 				console.log(times);
+				
 				var arrAvg = times.reduce((a,b) => a + b, 0) / times.length;
 				console.log("Moyenne :"+arrAvg);
 				var dev=math.std(times);
 				console.log("ST DEV :"+dev);
+				var theDatasStat=document.getElementById('theDatas').innerHTML;
+				theDatasStat="<h4>temps de reaction :</h4>"
+				theDatasStat=theDatasStat+"<pre>"+times+"</pre>";
+				theDatasStat=theDatasStat+"<p><b>ST DEV : </b>"+dev+"</p>"+"<p><b>Moyenne : </b>"+arrAvg+"</p>";
 
 				console.log("temps entre 2 notes :");
 				console.log(times2);
@@ -132,11 +150,15 @@ var playSound=function(nombre){
 				console.log("Moyenne :"+arrAvg2);
 				var dev2=math.std(times2);
 				console.log("ST DEV :"+dev2);
+				theDatasStat=theDatasStat+"<h4>temps entre 2 notes :</h4>"
+				theDatasStat=theDatasStat+"<pre>"+times2+"</pre>";
+				theDatasStat=theDatasStat+"<p><b>ST DEV : </b>"+dev2+"</p>"+"<p><b>Moyenne : </b>"+arrAvg2+"</p>";
+				document.getElementById('theDatas').innerHTML=theDatasStat;
 			}
 			myBut="butt"+bouton[index];
 			document.getElementById(myBut).style.background=colors[index%6];
 			newT=new Date();
-		}, tempo[index]*400);
+		}, tempo[index]*250);
 		
 	}
 }
