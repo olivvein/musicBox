@@ -50,6 +50,8 @@ var testInstance = new AudioSynth;
 testInstance instanceof AudioSynth; // true
 
 testInstance === Synth; // true
+Synth.setSampleRate(4000);
+
 var piano = Synth.createInstrument('piano');
 
 var colors=['yellow','blue','red','orange','green','purple'];
