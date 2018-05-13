@@ -1,25 +1,25 @@
 <html>
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 <script src="audiosynth.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 
 </head>
 <body>
 	<header>
-		<h1>Diana's Box v1.2</h1>
+		<h1>Diana's Box v1.2 for Mouse</h1>
 	</header>
 
 
 	<form id="theForm">
+		<a href="mobile.html"><button type="button" class="btn btn-primary">Version Touchscreen</button></a>
 	  <div class="form-group">
 	    <label for="exampleInputEmail1">Name</label>
-	    <input type="email" class="form-control" id="formNom" aria-describedby="emailHelp" placeholder="Enter Name">
+	    <input  class="form-control" id="formNom" aria-describedby="emailHelp" placeholder="Enter Name">
 	    <small id="emailHelp" class="form-text text-muted">Your Name</small>
 	  </div>
 	  <div class="form-group">
 	    <label for="exampleInputPassword1">Age</label>
-	    <input type="password" class="form-control" id="formAge" placeholder="Age">
+	    <input type="number" class="form-control" id="formAge" placeholder="Age">
 	  </div>
 	</form>
 	
@@ -35,10 +35,10 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <div id="butt0" class="shadow-lg p-1 mb-1  rounded" ontouchstart="playSound(0)" style="position:relative;width:100%;height:200px;background:white"></div>
+      <div id="butt0" class="shadow-lg p-1 mb-1  rounded" onclick="playSound(0)" style="position:relative;width:100%;height:200px;background:white"></div>
     </div>
     <div class="col">
-      <div id="butt1" class="shadow-lg p-3 mb-5  rounded" ontouchstart="playSound(1)" style="position:relative;width:100%;height:200px;background:white"></div>
+      <div id="butt1" class="shadow-lg p-3 mb-5  rounded" onclick="playSound(1)" style="position:relative;width:100%;height:200px;background:white"></div>
     </div>
   </div>
 </div>
@@ -51,10 +51,10 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <div id="butt2" class="shadow-lg p-3 mb-5 rounded" ontouchstart="playSound(2)" style="position:relative;width:100%;height:200px;background:white"></div>
+      <div id="butt2" class="shadow-lg p-3 mb-5 rounded" onclick="playSound(2)" style="position:relative;width:100%;height:200px;background:white"></div>
     </div>
     <div class="col">
-      <div id="butt3" class="shadow-lg p-3 mb-5  rounded" ontouchstart="playSound(3)" style="position:relative;width:100%;height:200px;background:white"></div>
+      <div id="butt3" class="shadow-lg p-3 mb-5  rounded" onclick="playSound(3)" style="position:relative;width:100%;height:200px;background:white"></div>
     </div>
   </div>
 </div>
@@ -120,11 +120,17 @@ var mySoundIs=function(sounnd,start){
 	 tempo=[1,1,1,1,2,2,1,1,1,1,4,1,1,1,1,2,2,1,1,1,1,4]; 												//Le rythme
 	 bouton=[0,3,0,1,2,1,3,2,0,0,1,0,3,0,1,2,1,3,2,0,0,1,0,3,0,1,2,1,3,2,0,0,1];						//Les boutons a appuyer
 	}
-	else{
+	if(sounnd==2){
 	 notes=['G','E','E','D','G','E','E','E','D','G','E','E','D','G','E','E','E','D','F','D','D','C','E','C','C','C','A#','C'];  //Les notes a jouer
 	 octaves=[4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4];
 	 tempo=[2,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1]; 
 	 bouton=[0,1,1,3,0,1,1,1,3,0,1,1,3,0,1,1,1,3,2,1,1,3,2,1,1,1,3,0,1,1,3,0,1,1,1,3,0,1,1,3,0,1,1,1,3,0,1,1,3,0,1,1,1,3];
+	}
+	if(sounnd==3){
+	 notes=[];  //Les notes a jouer
+	 octaves=[];
+	 tempo=[]; 
+	 bouton=[];
 	}
 	if(start!=1){
 		thePad.style.display = "block";
@@ -221,7 +227,7 @@ var playSound=function(nombre){
 				//document.getElementById('theDatas').innerHTML=theDatasStat;
 			}
 			myBut="butt"+bouton[index];
-			document.getElementById(myBut).style.background=colors[index%6];
+			document.getElementById(myBut).style.background=colors[index%colors.length];
 			newT=new Date();
 		}, tempo[index]*250);
 		
