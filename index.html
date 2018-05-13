@@ -144,6 +144,19 @@ var playSound=function(nombre){
 				theDatasStat=theDatasStat+"<pre>"+times+"</pre>";
 				theDatasStat=theDatasStat+"<p><b>ST DEV : </b>"+dev+"</p>"+"<p><b>Moyenne : </b>"+arrAvg+"</p>";
 
+				var csvContent = "data:text/csv;charset=utf-8,";
+				times.forEach(function(rowArray){
+				   csvContent += rowArray + ";";
+				}); 
+				var encodedUri = encodeURI(csvContent);
+				var link = document.createElement("a");
+				link.setAttribute("class", "btn btn-primary");
+				link.setAttribute("href", encodedUri);
+				link.setAttribute("download", "temps_de_reaction.csv");
+				link.innerHTML= "Download results";
+				document.body.appendChild(link);
+				//link.click();
+
 				console.log("temps entre 2 notes :");
 				console.log(times2);
 				var arrAvg2 = times2.reduce((a,b) => a + b, 0) / times2.length;
