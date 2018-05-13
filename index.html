@@ -1,23 +1,44 @@
 <html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 <script src="audiosynth.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 
 </head>
 <body>
 	<header>
-		<h1>Diana's Box v1.1</h1>
+		<h1>Diana's Box v1.2</h1>
 	</header>
+
+
+	<form id="theForm">
+	  <div class="form-group">
+	    <label for="exampleInputEmail1">Name</label>
+	    <input type="email" class="form-control" id="formNom" aria-describedby="emailHelp" placeholder="Enter Name">
+	    <small id="emailHelp" class="form-text text-muted">Your Name</small>
+	  </div>
+	  <div class="form-group">
+	    <label for="exampleInputPassword1">Age</label>
+	    <input type="password" class="form-control" id="formAge" placeholder="Age">
+	  </div>
+	</form>
 	
-	<button type="button" class="btn btn-primary" onclick="mySoundIs(1)">Au Clair De La Lune</button>
-	<button type="button" class="btn btn-primary" onclick="mySoundIs(2)">The Girl From Ipanema</button>
+	<button type="button" class="btn btn-primary" onclick="mySoundIs(1,0)">Au Clair De La Lune</button>
+	<button type="button" class="btn btn-primary" onclick="mySoundIs(2,0)">The Girl From Ipanema</button>
+
+	<div>
+<span>
+	&nbsp
+</span>
+</div>
+<div id="pad">
 <div class="container">
   <div class="row">
-    <div class="col-sm">
-      <div id="butt0" class="shadow-lg p-3 mb-5  rounded" onclick="playSound(0)" style="position:relative;width:50%;height:200px;background:white"></div>
+    <div class="col">
+      <div id="butt0" class="shadow-lg p-1 mb-1  rounded" ontouchstart="playSound(0)" style="position:relative;width:100%;height:200px;background:white"></div>
     </div>
-    <div class="col-sm">
-      <div id="butt1" class="shadow-lg p-3 mb-5  rounded" onclick="playSound(1)" style="position:relative;width:50%;height:200px;background:white"></div>
+    <div class="col">
+      <div id="butt1" class="shadow-lg p-3 mb-5  rounded" ontouchstart="playSound(1)" style="position:relative;width:100%;height:200px;background:white"></div>
     </div>
   </div>
 </div>
@@ -29,13 +50,14 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-sm">
-      <div id="butt2" class="shadow-lg p-3 mb-5 rounded" onclick="playSound(2)" style="position:relative;width:50%;height:200px;background:white"></div>
+    <div class="col">
+      <div id="butt2" class="shadow-lg p-3 mb-5 rounded" ontouchstart="playSound(2)" style="position:relative;width:100%;height:200px;background:white"></div>
     </div>
-    <div class="col-sm">
-      <div id="butt3" class="shadow-lg p-3 mb-5  rounded" onclick="playSound(3)" style="position:relative;width:50%;height:200px;background:white"></div>
+    <div class="col">
+      <div id="butt3" class="shadow-lg p-3 mb-5  rounded" ontouchstart="playSound(3)" style="position:relative;width:100%;height:200px;background:white"></div>
     </div>
   </div>
+</div>
 </div>
 
 <div class="container">
@@ -76,7 +98,15 @@ var newT;
 var oldT;
 newT=new Date();
 newT2=new Date();
-var mySoundIs=function(sounnd){
+var name="";
+var age=0;
+
+var thePad = document.getElementById("pad");
+var theForm = document.getElementById("theForm");
+
+var mySoundIs=function(sounnd,start){
+	name=document.getElementById("formNom").value;
+	age=document.getElementById("formAge").value;
 	index=0;
 	times=[];
 	times2=[];
@@ -96,19 +126,27 @@ var mySoundIs=function(sounnd){
 	 tempo=[2,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1]; 
 	 bouton=[0,1,1,3,0,1,1,1,3,0,1,1,3,0,1,1,1,3,2,1,1,3,2,1,1,1,3,0,1,1,3,0,1,1,1,3,0,1,1,3,0,1,1,1,3,0,1,1,3,0,1,1,1,3];
 	}
+	if(start!=1){
+		thePad.style.display = "block";
+		theForm.style.display = "none";
+	}
+	
 }
 
-mySoundIs(1);
+thePad.style.display = "none";
+mySoundIs(1,1);
 						//Les boutons a appuyer
 var index=0;
 var myBut="butt"+bouton[index];
 var timeIsOk=1;
 document.getElementById(myBut).style.background=colors[0];
-console.log(myBut);
+console.log(myBut); 
+
 
 
 
 var playSound=function(nombre){
+
 	if(nombre==bouton[index] && timeIsOk==1){
 		timeIsOk=0;
 		if(index>=1){
@@ -124,8 +162,7 @@ var playSound=function(nombre){
 		document.getElementById(myBut).style.background='white';
 		
 		piano.play(notes[index], octaves[index], tempo[index]*1);
-		document.getElementById("butt"+bouton[index]).class="p-3 mb-5 rounded";
-		document.getElementById("butt"+bouton[index+1]).class="shadow-lg p-3 mb-5 rounded";
+		
 
 		setTimeout(function(){
 			timeIsOk=1;
@@ -145,20 +182,35 @@ var playSound=function(nombre){
 				theDatasStat=theDatasStat+"<p><b>ST DEV : </b>"+dev+"</p>"+"<p><b>Moyenne : </b>"+arrAvg+"</p>";
 
 				var csvContent = "data:text/csv;charset=utf-8,";
+				var theInd=1;
+				csvContent+="mesure,"
 				times.forEach(function(rowArray){
-				   csvContent += rowArray + ";";
+				   csvContent += theInd + ",";
+				   theInd+=1;
+				});
+				csvContent+="\r\n";
+				csvContent+="Response Time,";
+				times.forEach(function(rowArray){
+				   csvContent += rowArray + ",";
+				}); 
+				csvContent+="\r\n";
+				csvContent+="Duration Beetween notes,";
+				times2.forEach(function(rowArray){
+				   csvContent += rowArray + ",";
 				}); 
 				var encodedUri = encodeURI(csvContent);
 				var link = document.createElement("a");
 				link.setAttribute("class", "btn btn-primary");
 				link.setAttribute("href", encodedUri);
-				link.setAttribute("download", "temps_de_reaction.csv");
-				link.innerHTML= "Download results";
+				link.setAttribute("download", "temps_de_reaction_"+name+"-"+age+".csv");
+				link.innerHTML= "Download : "+ "temps_de_reaction_"+name+"-"+age+".csv";
 				document.body.appendChild(link);
 				//link.click();
 
 				console.log("temps entre 2 notes :");
 				console.log(times2);
+
+
 				var arrAvg2 = times2.reduce((a,b) => a + b, 0) / times2.length;
 				console.log("Moyenne :"+arrAvg2);
 				var dev2=math.std(times2);
@@ -166,7 +218,7 @@ var playSound=function(nombre){
 				theDatasStat=theDatasStat+"<h4>temps entre 2 notes :</h4>"
 				theDatasStat=theDatasStat+"<pre>"+times2+"</pre>";
 				theDatasStat=theDatasStat+"<p><b>ST DEV : </b>"+dev2+"</p>"+"<p><b>Moyenne : </b>"+arrAvg2+"</p>";
-				document.getElementById('theDatas').innerHTML=theDatasStat;
+				//document.getElementById('theDatas').innerHTML=theDatasStat;
 			}
 			myBut="butt"+bouton[index];
 			document.getElementById(myBut).style.background=colors[index%6];
