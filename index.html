@@ -190,18 +190,18 @@ var playSound=function(nombre){
 
 				var csvContent = "data:text/csv;charset=utf-8,";
 				var theInd=1;
-				csvContent+="mesure,"
+				csvContent+="mesure,nom,age,"
 				times.forEach(function(rowArray){
 				   csvContent += theInd + ",";
 				   theInd+=1;
 				});
 				csvContent+="\r\n";
-				csvContent+="Response Time,";
+				csvContent+="Response Time,"+name+","+age+",";
 				times.forEach(function(rowArray){
 				   csvContent += rowArray + ",";
 				}); 
 				csvContent+="\r\n";
-				csvContent+="Duration Beetween notes,";
+				csvContent+="Duration Beetween notes,"+name+","+age+",";
 				times2.forEach(function(rowArray){
 				   csvContent += rowArray + ",";
 				}); 
@@ -225,6 +225,19 @@ var playSound=function(nombre){
 				theDatasStat=theDatasStat+"<h4>temps entre 2 notes :</h4>"
 				theDatasStat=theDatasStat+"<pre>"+times2+"</pre>";
 				theDatasStat=theDatasStat+"<p><b>ST DEV : </b>"+dev2+"</p>"+"<p><b>Moyenne : </b>"+arrAvg2+"</p>";
+
+				var xhr = new XMLHttpRequest();
+				xhr.open('GET', "http://chimalor.fr/diana/read.php", true);
+				xhr.send();
+				 
+				xhr.onreadystatechange = processRequest;
+				 
+				function processRequest(e) {
+				 if (xhr.readyState == 4 && xhr.status == 200) {
+				        var response = JSON.parse(xhr.responseText);
+				        console.log(response);
+				    }
+				}
 				//document.getElementById('theDatas').innerHTML=theDatasStat;
 			}
 			myBut="butt"+bouton[index];
