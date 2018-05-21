@@ -226,15 +226,36 @@ var playSound=function(nombre){
 				theDatasStat=theDatasStat+"<pre>"+times2+"</pre>";
 				theDatasStat=theDatasStat+"<p><b>ST DEV : </b>"+dev2+"</p>"+"<p><b>Moyenne : </b>"+arrAvg2+"</p>";
 
-				var xhr = new XMLHttpRequest();
-				xhr.open('GET', "https://chimalor.fr/diana/read.php", true);
-				xhr.send();
+				function getXDomainRequest() {
+					var xdr = null;
+
+					if (window.XDomainRequest) {
+						xdr = new XDomainRequest(); 
+					} else if (window.XMLHttpRequest) {
+						xdr = new XMLHttpRequest(); 
+					} else {
+						alert("Votre navigateur ne gère pas l'AJAX cross-domain !");
+					}
+
+					return xdr;        
+				}
+
+
+				function sendData() {
+					var xdr = getXDomainRequest();
+					xdr.onload = function() {
+						alert(xdr.responseText);
+					}
+
+					xdr.open("GET", "https://chimalor.fr/diana/read.php");
+					xdr.send();
+				}
 				 
-				xhr.onreadystatechange = processRequest;
+				xdr.onreadystatechange = processRequest;
 				 
 				function processRequest(e) {
-				 if (xhr.readyState == 4 && xhr.status == 200) {
-				        var response = JSON.parse(xhr.responseText);
+				 if (xdr.readyState == 4 && xdr.status == 200) {
+				        var response = JSON.parse(xdr.responseText);
 				        console.log(response);
 				    }
 				}
